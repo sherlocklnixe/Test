@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sherlock.www.dao.MemberSpaceMapper" >
+	<!-- 
+	<resultMap type="MemberSpace" id="ResultSpace">
+  		<id property="memberSpace.id" column="id" />
+  		<result property="memberSpace.opinion" column="opinion"/>
+  		<result property="memberSpace.runplace" column="runplace" />
+  		<result property="memberSpace.runstar" column="runstar" />
+  		<result property="memberSpace.runhabit" column="runhabit" />
+  		<result property="memberSpace.cellphone" column="cellphone" />
+  		<result property="memberSpace.icon" column="icon" />
+  	</resultMap> -->
+  	<resultMap type="MemberSpace" id="ResultSpace">
+  		<id property="id" column="id" />
+  		<result property="opinion" column="opinion"/>
+  		<result property="runplace" column="runplace" />
+  		<result property="runstar" column="runstar" />
+  		<result property="runhabit" column="runhabit" />
+  		<result property="cellphone" column="cellphone" />
+  		<result property="icon" column="icon" />
+  		<association property="memberinfo" resultMap="ResultMemberinfo"></association>
+  	</resultMap>
+  	<resultMap type="Memberinfo" id="ResultMemberinfo">
+		<id property="id" column="id"/>
+		<result property="nickname" column="nickname"/>
+		<result property="gender" column="gender"/>
+		<result property="point" column="point"/>
+		<result property="provincecity" column="provincecity"/>
+		<result property="phone" column="phone"/>
+		<result property="gradeid" column="gradeid"/>
+	</resultMap>
+  	<select id="selectSpace" parameterType="long" resultMap="ResultSpace">
+		  select space.*,info.*
+		  from memberspace space,memberinfo info
+		  where space.id=#{id} and space.id=info.id
+	</select>
+	<insert id="insertSpace" parameterType="MemberSpace">
+			insert into memberspace (id,opinion,runplace,runstar,runhabit,cellphone,icon)
+								values(#{id},#{opinion},#{runplace},#{runstar},#{runhabit},#{cellphone},#{icon})
+	</insert>
+	</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sherlock.www.dao.MessageRecordMapper" >
+
+		<resultMap type="Messagerecord" id="resultMessagerecord">
+			<id property="id" column="id"/>
+			<result property="sender" column="sender"/>
+			<result property="receiver" column="receiver"/>
+			<result property="senddate" column="senddate"/>
+			<result property="title" column="title"/>
+			<result property="content" column="content"/>
+			<result property="senderstatus" column="senderstatus"/>
+			<result property="receiverstatus" column="receiverstatus"/>
+			<result property="status" column="status"/>
+		</resultMap>
+ 		<select id="selectsendMessage" parameterType="String" resultMap="resultMessagerecord">
+ 				select * from messagerecord where sender=#{sender}
+ 		</select>
+ 		
+ 		<select id="selectrecieveMessage" parameterType="String" resultMap="resultMessagerecord">
+ 				select * from messagerecord where receiver=#{receiver}
+ 		</select>
+ 		
+ 		<insert id="insertSend" parameterType="Messagerecord" >
+ 			<selectKey keyProperty="id" resultType="long" order="BEFORE">
+ 					select SEQ_COMMON.nextval from dual
+ 			</selectKey>
+ 			insert into messagerecord (id,sender,receiver,senddate,title,content,status,senderstatus,receiverstatus)
+ 								values(#{id,jdbcType=NUMERIC},#{sender,jdbcType=VARCHAR},#{receiver,jdbcType=VARCHAR},#{senddate,jdbcType=DATE},#{title,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{status,jdbcType=NUMERIC},#{senderstatus,jdbcType=NUMERIC},#{receiverstatus,jdbcType=NUMERIC})
+ 		</insert>
+ 		<select id="selectContentById" parameterType="long" resultMap="resultMessagerecord">
+ 			select * from messagerecord where id=#{id}
+ 		</select>
+ 		<delete id="deleteContentById" parameterType="long">
+ 			delete from messagerecord where id=#{id}
+ 		</delete>
+</mapper>
